@@ -3,13 +3,13 @@
 
     <!-- 查询和其他操作 -->
     <div class="filter-container">
-      <el-input v-model="listQuery.name" clearable class="filter-search" style="width: 25%;" placeholder="请输入oemId">
+      <el-input v-model="listQuery.oemId" clearable class="filter-search" style="width: 25%;" placeholder="请输入oemId">
         <template slot="prepend">oemId</template>
       </el-input>
-      <el-input v-model="listQuery.content" clearable class="filter-search" style="width: 25%;" placeholder="请输入hwId">
+      <el-input v-model="listQuery.hwId" clearable class="filter-search" style="width: 25%;" placeholder="请输入hwId">
         <template slot="prepend">hwId</template>
       </el-input>
-      <el-input v-model="listQuery.content" clearable class="filter-search" style="width: 25%;" placeholder="请输入mic类别">
+      <el-input v-model="listQuery.micType" clearable class="filter-search" style="width: 25%;" placeholder="请输入mic类别">
         <template slot="prepend">mic</template>
       </el-input>
       <!-- 如果需要权限才显示使用v-permission -->
@@ -165,10 +165,10 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
-        name: undefined,
-        content: undefined,
-        sort: 'add_time',
-        order: 'desc'
+        oemId: undefined,
+        hwId: undefined,
+        micType: undefined,
+        order: 'asc'
       },
       catL1: {},
       dataForm: {
@@ -211,7 +211,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      listFirmware()
+      listFirmware(this.listQuery)
         .then(response => {
           this.list = response.data.data
           this.listLoading = false
@@ -272,7 +272,7 @@ export default {
       markStatus(this.dataForm)
         .then(() => {
           this.getList()
-          this.dialogFormVisible = false
+          this.dialogMarkVisible = false
           this.$notify.success({
             title: '成功',
             message: '标记成功'
